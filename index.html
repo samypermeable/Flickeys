@@ -41,7 +41,6 @@
   }
 
   .layout-grid { display: flex; flex-direction: column; gap: 32px; }
-
   .sidebar { width: 100%; }
   
   .header { text-align: center; margin-bottom: 24px; cursor: pointer; }
@@ -101,3 +100,335 @@
   .watched-check input { accent-color: var(--gold); cursor: pointer; width: 18px; height: 18px; margin: 0; }
 
   .imdb-link { font-size: 12px; font-weight: 600; text-decoration: none; color: var(--black); background: var(--gold); padding: 8px 14px; border-radius: 8px; transition: all 0.2s; white-space: nowrap; }
+  .imdb-link:hover { transform: scale(1.05); box-shadow: 0 0 12px rgba(212, 175, 55, 0.4); }
+
+  .loading-container { padding: 60px 0; display: flex; flex-direction: column; justify-content: center; align-items: center; grid-column: 1 / -1; }
+  .loading-ring { display: inline-block; width: 40px; height: 40px; border: 3px solid rgba(212, 175, 55, 0.1); border-radius: 50%; border-top-color: var(--gold); animation: spin 1s ease-in-out infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .empty { text-align: center; color: var(--ink-muted); font-size: 14px; margin: 60px 0; letter-spacing: 0.02em; grid-column: 1 / -1; padding: 0 20px; line-height: 1.5; }
+  
+  .actions { display: flex; gap: 12px; margin-top: 28px; grid-column: 1 / -1; }
+  .btn { flex: 1; font-family: 'Work Sans', sans-serif; font-size: 14px; font-weight: 600; padding: 16px; border-radius: 10px; cursor: pointer; border: 1px solid var(--gold); background: transparent; color: var(--gold); transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.05em; }
+  .btn.primary { background: var(--gold); color: var(--black); box-shadow: 0 4px 15px rgba(212, 175, 55, 0.15); }
+  .btn.primary:hover { box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3); transform: translateY(-2px); }
+
+  .source-badge { text-align:center; font-size:10px; color:var(--gold-dim); letter-spacing:0.1em; margin-bottom: 16px; grid-column: 1 / -1; font-weight: 600; }
+
+  /* COLLECTION VIEW */
+  #collection-view { display: none; }
+  .collection-header-wrap { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); padding-bottom: 16px; margin-bottom: 24px; }
+  .collection-header { font-family: 'Cinzel', serif; color: var(--gold); font-size: 24px; margin: 0; }
+  .back-btn { background: transparent; border: 1px solid var(--gold-dim); color: var(--gold); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; transition: 0.2s; }
+  .back-btn:hover { background: var(--gold); color: var(--black); border-color: var(--gold); }
+  
+  .collection-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  .collection-item { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .col-title { font-family: 'Cinzel', serif; color: var(--gold); font-size: 16px; margin: 0 0 4px 0; font-weight: 700; line-height: 1.2; }
+  .col-meta { font-size: 12px; color: var(--ink-muted); margin: 0; }
+  .remove-btn { flex-shrink: 0; background: transparent; border: 1px solid var(--red); color: var(--red); padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; transition: 0.2s; }
+  .remove-btn:hover { background: var(--red); color: #fff; }
+
+  /* RESPONSIVE DESKTOP LAYOUT */
+  @media (min-width: 900px) {
+    #app-root { padding: 48px 32px; }
+    .layout-grid { flex-direction: row; gap: 56px; align-items: flex-start; }
+    .sidebar { flex: 0 0 300px; position: sticky; top: 48px; border-right: 1px solid rgba(212, 175, 55, 0.08); padding-right: 40px; }
+    .header { text-align: left; margin-bottom: 40px; }
+    .title { font-size: 52px; }
+    .genres-wrap { flex-wrap: wrap; overflow-x: visible; gap: 10px; margin-bottom: 32px; padding-bottom: 0; }
+    .genre-chip { padding: 9px 18px; font-size: 12.5px; }
+    .main-content { min-width: 0; }
+    .stage { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+    .collection-grid { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+    .collection-header { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="app-root">
+  <div class="layout-grid">
+    
+    <!-- SIDEBAR / CONTROLS -->
+    <div class="sidebar">
+      <div class="header" onclick="showDiscover()">
+        <h1 class="title">Flickeys</h1>
+        <p class="sub">Curated Movies & Shows</p>
+      </div>
+
+      <button class="collection-btn" id="btn-collection" onclick="showCollection()">
+        Logged Collection (<span id="collection-count">0</span>)
+      </button>
+
+      <div id="controls-section">
+        <span class="nav-group-label">Format</span>
+        <div class="toggle-group" id="format-toggle">
+          <button class="toggle-btn active" data-val="Movies">Movies</button>
+          <button class="toggle-btn" data-val="TV Shows">TV Shows</button>
+        </div>
+
+        <span class="nav-group-label">Region</span>
+        <div class="toggle-group" id="region-toggle">
+          <button class="toggle-btn active" data-val="English">English</button>
+          <button class="toggle-btn" data-val="Hindi">Hindi</button>
+          <button class="toggle-btn" data-val="South Indian">South Indian</button>
+          <button class="toggle-btn" data-val="Korean">Korean</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT AREA -->
+    <div class="main-content">
+      
+      <!-- DISCOVER VIEW -->
+      <div id="discover-view">
+        <div class="genres-wrap" id="genres-wrap"></div>
+        <div class="stage" id="stage"></div>
+        <div class="empty" id="empty-state">Select a genre to browse recommendations.</div>
+        <div class="actions" id="actions" style="display: none;">
+          <button class="btn primary" id="btn-reroll">Refresh Lineup</button>
+        </div>
+      </div>
+
+      <!-- COLLECTION VIEW -->
+      <div id="collection-view">
+        <div class="collection-header-wrap">
+          <h2 class="collection-header">My Logged Collection</h2>
+          <button class="back-btn" onclick="showDiscover()">← Back to Browse</button>
+        </div>
+        <div class="collection-grid" id="collection-grid"></div>
+        <div class="empty" id="collection-empty" style="display:none;">You haven't logged any titles yet.</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const GENRES = ["Action / Thriller", "Romantic", "Rom-Com", "Horror", "Sci-Fi", "Drama", "Mystery / Crime", "Comedy", "Animation / Family"];
+
+  let currentFormat = 'Movies';
+  let currentRegion = 'English';
+  let currentGenre = null;
+  let watched = { films: [] };
+  let sessionSeen = { films: [] };
+
+  const stageEl = document.getElementById('stage');
+  const genresWrapEl = document.getElementById('genres-wrap');
+  const emptyEl = document.getElementById('empty-state');
+  const actionsEl = document.getElementById('actions');
+  const colCountEl = document.getElementById('collection-count');
+  
+  const discoverView = document.getElementById('discover-view');
+  const collectionView = document.getElementById('collection-view');
+
+  function loadWatched() {
+    try {
+      const raw = localStorage.getItem('flickeys-watched-v5');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed.films) watched.films = parsed.films;
+      }
+    } catch (e) { watched = { films: [] }; }
+    updateColCount();
+  }
+
+  function saveWatched() {
+    try { localStorage.setItem('flickeys-watched-v5', JSON.stringify(watched)); } catch (e) {}
+    updateColCount();
+  }
+
+  function updateColCount() {
+    colCountEl.textContent = watched.films.length;
+  }
+
+  window.showDiscover = function() {
+    collectionView.style.display = 'none';
+    discoverView.style.display = 'block';
+  }
+
+  window.showCollection = function() {
+    discoverView.style.display = 'none';
+    collectionView.style.display = 'block';
+    renderCollection();
+  }
+
+  function renderCollection() {
+    const grid = document.getElementById('collection-grid');
+    const empty = document.getElementById('collection-empty');
+    grid.innerHTML = '';
+    
+    if (watched.films.length === 0) {
+        empty.style.display = 'block';
+        return;
+    }
+    empty.style.display = 'none';
+
+    const reversed = [...watched.films].reverse();
+
+    reversed.forEach(filmStr => {
+        const match = filmStr.match(/(.+?)\s*\((\d{4})\)/);
+        const title = match ? match[1] : filmStr;
+        const year = match ? match[2] : "";
+
+        const item = document.createElement('div');
+        item.className = 'collection-item';
+        item.innerHTML = `
+            <div>
+                <h4 class="col-title">${title}</h4>
+                <p class="col-meta">${year}</p>
+            </div>
+            <button class="remove-btn">Remove</button>
+        `;
+
+        item.querySelector('.remove-btn').addEventListener('click', () => {
+            watched.films = watched.films.filter(f => f !== filmStr);
+            saveWatched();
+            renderCollection();
+            
+            const checkbox = document.querySelector(`.watched-check input[value="${filmStr}"]`);
+            if (checkbox) checkbox.checked = false;
+        });
+
+        grid.appendChild(item);
+    });
+  }
+
+  async function fetchPicks(genre, region, format) {
+    const avoidList = [...new Set([...watched.films, ...sessionSeen.films])].slice(-40);
+    
+    const promptText = `Suggest exactly 3 highly rated, famous ${region} ${format} strictly matching the genre '${genre}'. Exclude these completely: ${avoidList.join(', ')}. Respond ONLY with valid raw JSON in this exact format: {"films":[{"title":"...","year":"YYYY","genre":"...","desc":"One short sentence description.","imdb_rating":"X.X"}]}`;
+
+    const targetUrl = `https://text.pollinations.ai/${encodeURIComponent(promptText)}?model=openai&json=true&seed=${Math.floor(Math.random() * 9999999)}`;
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+
+    const response = await fetch(proxyUrl);
+    if (!response.ok) throw new Error(`HTTP Error ${response.status}`);
+
+    const data = await response.json();
+    let text = data.contents;
+    
+    text = text.replace(/```json/gi, '').replace(/```/g, '').trim();
+    
+    const firstBrace = text.indexOf('{');
+    const lastBrace = text.lastIndexOf('}');
+    if (firstBrace !== -1 && lastBrace !== -1) {
+        text = text.substring(firstBrace, lastBrace + 1);
+    }
+    
+    const parsed = JSON.parse(text);
+    if (parsed.films && parsed.films.length >= 3) {
+        return parsed.films.slice(0, 3).map(p => ({...p, source: 'ai'}));
+    }
+    
+    throw new Error("Invalid JSON structure from AI.");
+  }
+
+  async function pickAndRender(genre) {
+    currentGenre = genre;
+    stageEl.innerHTML = `<div class="loading-container"><div class="loading-ring"></div><p style="color:var(--gold-dim); margin-top:20px; font-size:12px; letter-spacing:0.1em;">CURATING AI LINEUP...</p></div>`;
+    emptyEl.style.display = 'none';
+    actionsEl.style.display = 'none';
+
+    try {
+        const picks = await fetchPicks(genre, currentRegion, currentFormat);
+        
+        stageEl.innerHTML = '';
+        
+        const sourceIndicator = `<div class="source-badge">✦ GENERATED BY AI</div>`;
+        stageEl.innerHTML += sourceIndicator;
+
+        picks.forEach((film, index) => {
+            const filmId = `${film.title} (${film.year})`;
+            sessionSeen.films.push(filmId);
+            
+            const q = encodeURIComponent(`${film.title} ${film.year}`);
+            const imdbUrl = `https://www.imdb.com/find/?q=${q}&s=tt`;
+            const isWatched = watched.films.includes(filmId);
+
+            const card = document.createElement('div');
+            card.className = 'film-card';
+            card.innerHTML = `
+              <h3 class="film-title">${film.title}</h3>
+              <p class="film-meta">${film.year} &bull; ${film.genre}</p>
+              <p class="film-desc">${film.desc}</p>
+              <div class="film-footer">
+                <label class="watched-check">
+                  <input type="checkbox" value="${filmId}" ${isWatched ? 'checked' : ''}>
+                  Watched
+                </label>
+                <a class="imdb-link" href="${imdbUrl}" target="_blank" rel="noopener noreferrer">&#9733; ${film.imdb_rating || "N/A"} IMDb ↗</a>
+              </div>
+            `;
+            
+            card.querySelector('input').addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    if (!watched.films.includes(filmId)) watched.films.push(filmId);
+                } else {
+                    watched.films = watched.films.filter(id => id !== filmId);
+                }
+                saveWatched();
+                updateColCount();
+            });
+            
+            stageEl.appendChild(card);
+            setTimeout(() => { card.classList.add('reveal'); }, 50 + (index * 120));
+        });
+    } catch (error) {
+        console.error(error);
+        stageEl.innerHTML = `<div class="empty" style="color: var(--red);">Unable to generate lineup right now. Please check your connection and try refreshing.</div>`;
+    }
+    
+    setTimeout(() => { actionsEl.style.display = 'flex'; }, 400);
+  }
+
+  function setupToggle(groupId, stateVarName) {
+    document.getElementById(groupId).addEventListener('click', (e) => {
+        const btn = e.target.closest('.toggle-btn');
+        if (btn) {
+            document.querySelectorAll(`#${groupId} .toggle-btn`).forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            if (stateVarName === 'region') currentRegion = btn.dataset.val;
+            if (stateVarName === 'format') currentFormat = btn.dataset.val;
+            
+            sessionSeen.films = []; 
+            if (currentGenre && discoverView.style.display !== 'none') pickAndRender(currentGenre);
+        }
+    });
+  }
+
+  document.getElementById('btn-reroll').addEventListener('click', () => {
+      if (currentGenre) pickAndRender(currentGenre);
+  });
+
+  function init() {
+    loadWatched();
+    
+    setupToggle('region-toggle', 'region');
+    setupToggle('format-toggle', 'format');
+
+    GENRES.forEach(genre => {
+      const chip = document.createElement('button');
+      chip.className = 'genre-chip';
+      chip.textContent = genre;
+      chip.addEventListener('click', (e) => {
+        const targetChip = e.target.closest('.genre-chip');
+        if(targetChip) {
+            document.querySelectorAll('.genre-chip').forEach(c => c.classList.remove('active'));
+            targetChip.classList.add('active');
+            sessionSeen.films = []; 
+            pickAndRender(genre);
+        }
+      });
+      genresWrapEl.appendChild(chip);
+    });
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
