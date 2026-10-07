@@ -210,36 +210,47 @@
 (function() {
   const GENRES = ["Action / Thriller", "Romantic", "Rom-Com", "Horror", "Sci-Fi", "Drama", "Mystery / Crime", "Comedy", "Animation / Family"];
 
-  // Real curated fallback database packed with actual, famous masterpieces
+  // Comprehensive curated fallback DB with 10 real titles per main category
   const MOVIE_DB = {
     "English": {
       "Movies": {
         "Action / Thriller": [
           {"title": "Mad Max: Fury Road", "year": "2015", "genre": "Action / Sci-Fi", "desc": "In a post-apocalyptic wasteland, a woman rebels against a tyrannical ruler.", "imdb_rating": "8.1"},
           {"title": "The Dark Knight", "year": "2008", "genre": "Action / Crime", "desc": "Batman accepts his greatest psychological and physical tests to fight the Joker.", "imdb_rating": "9.0"},
-          {"title": "Inception", "year": "2010", "genre": "Action / Sci-Fi", "desc": "A thief who steals corporate secrets through dream-sharing is given a inverse task.", "imdb_rating": "8.8"}
+          {"title": "Inception", "year": "2010", "genre": "Action / Sci-Fi", "desc": "A thief who steals corporate secrets through dream-sharing is given an inverse task.", "imdb_rating": "8.8"},
+          {"title": "John Wick", "year": "2014", "genre": "Action / Thriller", "desc": "An ex-hitman comes out of retirement to track down the gangsters who ruined his life.", "imdb_rating": "7.4"},
+          {"title": "Gladiator", "year": "2000", "genre": "Action / Drama", "desc": "A former Roman general sets out to exact vengeance against the corrupt emperor.", "imdb_rating": "8.5"},
+          {"title": "Matrix", "year": "1999", "genre": "Action / Sci-Fi", "desc": "A computer hacker learns from mysterious rebels about the true nature of his reality.", "imdb_rating": "8.7"},
+          {"title": "Terminator 2: Judgment Day", "year": "1991", "genre": "Action / Sci-Fi", "desc": "A cyborg is sent back in time to protect a young boy destined to save humanity.", "imdb_rating": "8.5"},
+          {"title": "Die Hard", "year": "1988", "genre": "Action / Thriller", "desc": "An NYPD officer tries to save his wife and other hostages from German terrorists.", "imdb_rating": "8.2"},
+          {"title": "Casino Royale", "year": "2006", "genre": "Action / Thriller", "desc": "Armed with a licence to kill, James Bond must defeat a ruthless financier in a poker game.", "imdb_rating": "8.0"},
+          {"title": "Mission: Impossible - Fallout", "year": "2018", "genre": "Action / Thriller", "desc": "Ethan Hunt and his IMF team race against time after a mission goes horribly wrong.", "imdb_rating": "7.7"}
         ],
         "Sci-Fi": [
-          {"title": "Interstellar", "year": "2014", "genre": "Adventure / Sci-Fi", "desc": "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.", "imdb_rating": "8.7"},
+          {"title": "Interstellar", "year": "2014", "genre": "Adventure / Sci-Fi", "desc": "Explorers travel through a wormhole in space in an attempt to ensure humanity's survival.", "imdb_rating": "8.7"},
           {"title": "Blade Runner 2049", "year": "2017", "genre": "Action / Sci-Fi", "desc": "A young blade runner's discovery leads him to track down former blade runner Rick Deckard.", "imdb_rating": "8.0"},
-          {"title": "Arrival", "year": "2016", "genre": "Drama / Sci-Fi", "desc": "A linguist works with the military to communicate with alien lifeforms after craft touch down.", "imdb_rating": "7.9"}
-        ],
-        "Horror": [
-          {"title": "The Shining", "year": "1980", "genre": "Horror", "desc": "A family heads to an isolated hotel for the winter where a sinister presence influences the father.", "imdb_rating": "8.4"},
-          {"title": "Get Out", "year": "2017", "genre": "Horror / Mystery", "desc": "A young African-American visits his white girlfriend's parents for the weekend, uncovering dark secrets.", "imdb_rating": "7.8"},
-          {"title": "Hereditary", "year": "2018", "genre": "Horror / Mystery", "desc": "A grieving family is haunted by tragic and disturbing occurrences after the death of their matriarch.", "imdb_rating": "7.3"}
+          {"title": "Arrival", "year": "2016", "genre": "Drama / Sci-Fi", "desc": "A linguist works with the military to communicate with alien lifeforms after craft touch down.", "imdb_rating": "7.9"},
+          {"title": "Dune: Part One", "year": "2021", "genre": "Action / Sci-Fi", "desc": "A noble family becomes embroiled in a war for control over the galaxy's most valuable asset.", "imdb_rating": "8.0"},
+          {"title": "The Martian", "year": "2015", "genre": "Adventure / Sci-Fi", "desc": "An astronaut becomes stranded on Mars and must rely on his ingenuity to signal Earth.", "imdb_rating": "8.0"},
+          {"title": "Ex Machina", "year": "2014", "genre": "Drama / Sci-Fi", "desc": "A programmer participates in a ground-breaking experiment in synthetic intelligence.", "imdb_rating": "7.7"},
+          {"title": "2001: A Space Odyssey", "year": "1968", "genre": "Sci-Fi / Adventure", "desc": "Humanity finds a mysterious object buried beneath the lunar surface.", "imdb_rating": "8.3"},
+          {"title": "Back to the Future", "year": "1985", "genre": "Sci-Fi / Adventure", "desc": "A high school student is accidentally sent thirty years into the past in a time machine.", "imdb_rating": "8.5"},
+          {"title": "Minority Report", "year": "2002", "genre": "Action / Sci-Fi", "desc": "In a future where police catch criminals before crimes are committed, an officer is accused.", "imdb_rating": "7.6"},
+          {"title": "District 9", "year": "2009", "genre": "Action / Sci-Fi", "desc": "A contractor forced to relocate a race of extraterrestrials in South Africa contracts a mysterious virus.", "imdb_rating": "7.9"}
         ]
       },
       "TV Shows": {
         "Action / Thriller": [
           {"title": "Breaking Bad", "year": "2008", "genre": "Crime / Drama", "desc": "A chemistry teacher diagnosed with cancer turns to manufacturing and selling methamphetamine.", "imdb_rating": "9.5"},
           {"title": "Game of Thrones", "year": "2011", "genre": "Action / Fantasy", "desc": "Nine noble families fight for control over the lands of Westeros.", "imdb_rating": "9.2"},
-          {"title": "Chernobyl", "year": "2019", "genre": "Drama / History", "desc": "In 1986, a catastrophic nuclear accident at the Chernobyl plant unleashes radioactive fallout.", "imdb_rating": "9.3"}
-        ],
-        "Sci-Fi": [
-          {"title": "Stranger Things", "year": "2016", "genre": "Sci-Fi / Horror", "desc": "When a young boy vanishes, a small town uncovers a mystery involving secret experiments.", "imdb_rating": "8.7"},
-          {"title": "Black Mirror", "year": "2011", "genre": "Sci-Fi / Drama", "desc": "An anthology series exploring a twisted, high-tech multiverse where humanity's greatest innovations collide.", "imdb_rating": "8.7"},
-          {"title": "The Mandalorian", "year": "2019", "genre": "Action / Sci-Fi", "desc": "The travels of a lone bounty hunter in the outer reaches of the galaxy far from the New Republic.", "imdb_rating": "8.7"}
+          {"title": "Chernobyl", "year": "2019", "genre": "Drama / History", "desc": "In 1986, a catastrophic nuclear accident at the Chernobyl plant unleashes radioactive fallout.", "imdb_rating": "9.3"},
+          {"title": "The Wire", "year": "2002", "genre": "Crime / Drama", "desc": "Baltimore drug scene seen through the eyes of law enforcement and drug dealers.", "imdb_rating": "9.3"},
+          {"title": "Succession", "year": "2018", "genre": "Drama", "desc": "The Roy family is known for controlling the biggest media and entertainment company in the world.", "imdb_rating": "8.9"},
+          {"title": "Sherlock", "year": "2010", "genre": "Crime / Mystery", "desc": "A modern update finds the famous sleuth and his doctor partner solving crime in London.", "imdb_rating": "9.1"},
+          {"title": "True Detective", "year": "2014", "genre": "Crime / Drama", "desc": "Seasonal anthology series in which police investigations unearth personal and professional secrets.", "imdb_rating": "8.9"},
+          {"title": "Peaky Blinders", "year": "2013", "genre": "Crime / Drama", "desc": "A gangster epic set in 1919 Birmingham centering on a fierce criminal gang.", "imdb_rating": "8.8"},
+          {"title": "The Boys", "year": "2019", "genre": "Action / Sci-Fi", "desc": "A group of vigilantes set out to take down corrupt superheroes who abuse their superpowers.", "imdb_rating": "8.7"},
+          {"title": "Dexter", "year": "2006", "genre": "Crime / Drama", "desc": "A Miami forensics expert multiverses as a serial killer who targets murderers.", "imdb_rating": "8.7"}
         ]
       }
     },
@@ -247,51 +258,89 @@
       "Movies": {
         "Action / Thriller": [
           {"title": "Gangs of Wasseypur", "year": "2012", "genre": "Crime / Action", "desc": "A clash between Sultan and Shahid Khan ignites a deadly blood feud spanning generations.", "imdb_rating": "8.2"},
-          {"title": "Drishyam", "year": "2015", "genre": "Crime / Thriller", "desc": "Desperate measures are taken by a man who tries to save his family from the dark side of the law.", "imdb_rating": "8.2"},
-          {"title": "Andhadhun", "year": "2018", "genre": "Crime / Mystery", "desc": "A series of mysterious events change the life of a seemingly blind pianist who witnesses a murder.", "imdb_rating": "8.2"}
-        ],
-        "Drama": [
-          {"title": "3 Idiots", "year": "2009", "genre": "Comedy / Drama", "desc": "Two friends revisit their college days and recall the memories of their inspiring friend who disappeared.", "imdb_rating": "8.4"},
-          {"title": "Dangal", "year": "2016", "genre": "Action / Biography", "desc": "Former wrestler Mahavir Singh Phogat trains his daughters to become world-class wrestlers.", "imdb_rating": "8.3"},
-          {"title": "Taare Zameen Par", "year": "2007", "genre": "Drama / Family", "desc": "An unconventional art teacher helps a dyslexic child discover his true identity and potential.", "imdb_rating": "8.3"}
+          {"title": "Drishyam", "year": "2015", "genre": "Crime / Thriller", "desc": "Desperate measures are taken by a man who tries to save his family from the law.", "imdb_rating": "8.2"},
+          {"title": "Andhadhun", "year": "2018", "genre": "Crime / Mystery", "desc": "A series of mysterious events change the life of a seemingly blind pianist.", "imdb_rating": "8.2"},
+          {"title": "Tumbbad", "year": "2018", "genre": "Horror / Fantasy", "desc": "A mythological story about a cursed treasure and greed in a rural village.", "imdb_rating": "8.2"},
+          {"title": "Kahaani", "year": "2012", "genre": "Crime / Mystery", "desc": "A pregnant woman's search for her missing husband takes her from London to Kolkata.", "imdb_rating": "8.1"},
+          {"title": "Ghajini", "year": "2008", "genre": "Action / Thriller", "desc": "A short-term memory loss patient sets out on a journey to avenge his beloved.", "imdb_rating": "7.3"},
+          {"title": "Special 26", "year": "2013", "genre": "Crime / Thriller", "desc": "A gang of con-men rob corrupt businessmen by posing as CBI officers.", "imdb_rating": "8.0"},
+          {"title": "A Wednesday", "year": "2008", "genre": "Crime / Thriller", "desc": "A retiring police commissioner reminisces about the most astounding day of his career.", "imdb_rating": "8.1"},
+          {"title": "War", "year": "2019", "genre": "Action / Thriller", "desc": "An Indian soldier is assigned to eliminate his former mentor who has gone rogue.", "imdb_rating": "6.5"},
+          {"title": "Article 15", "year": "2019", "genre": "Crime / Drama", "desc": "An upright police officer investigates the disappearance of three girls in a small village.", "imdb_rating": "8.1"}
         ]
       },
       "TV Shows": {
         "Action / Thriller": [
-          {"title": "Mirzapur", "year": "2018", "genre": "Action / Crime", "desc": "A iron-fisted mafia don and his aspiring son rule over a lawless city in Uttar Pradesh.", "imdb_rating": "8.5"},
-          {"title": "Sacred Games", "year": "2018", "genre": "Crime / Thriller", "desc": "A troubled police officer receives a clue from a fugitive gang boss about a terrorist attack in Mumbai.", "imdb_rating": "8.5"},
-          {"title": "Paatal Lok", "year": "2020", "genre": "Crime / Drama", "desc": "A cynical inspector is tasked with investigating a high-profile assassination attempt gone wrong.", "imdb_rating": "8.1"}
+          {"title": "Mirzapur", "year": "2018", "genre": "Action / Crime", "desc": "A mafia don and his aspiring son rule over a lawless city with an iron fist.", "imdb_rating": "8.5"},
+          {"title": "Sacred Games", "year": "2018", "genre": "Crime / Thriller", "desc": "A troubled police officer receives a clue from a fugitive gang boss about an attack in Mumbai.", "imdb_rating": "8.5"},
+          {"title": "Paatal Lok", "year": "2020", "genre": "Crime / Drama", "desc": "A cynical inspector is tasked with investigating a high-profile assassination attempt.", "imdb_rating": "8.1"},
+          {"title": "The Family Man", "year": "2019", "genre": "Action / Thriller", "desc": "A middle-class man secretly works as an intelligence officer for a threat analysis cell.", "imdb_rating": "8.7"},
+          {"title": "Criminal Justice", "year": "2019", "genre": "Crime / Drama", "desc": "The harrowing legal journey of an ordinary cab driver falsely accused of a brutal murder.", "imdb_rating": "8.1"},
+          {"title": "Asur", "year": "2020", "genre": "Crime / Mystery", "desc": "A forensic expert returns to CBI to catch a serial killer blending mythology with murder.", "imdb_rating": "8.5"},
+          {"title": "Scam 1992", "year": "2020", "genre": "Biography / Crime", "desc": "The rise and fall of Harshad Mehta, the stockbroker responsible for the 1992 scam.", "imdb_rating": "9.3"},
+          {"title": "Farzi", "year": "2023", "genre": "Action / Crime", "desc": "A brilliant small-time artist gets pulled into the high-stakes world of currency counterfeiting.", "imdb_rating": "8.4"},
+          {"title": "Kohrra", "year": "2023", "genre": "Crime / Mystery", "desc": "A murdered NRI in rural Punjab uncovers complex family dynamics and dark secrets.", "imdb_rating": "7.9"},
+          {"title": "Rana Naidu", "year": "2023", "genre": "Action / Crime", "desc": "Fixer to the stars in Mumbai, Rana Naidu finds his life upended when his father is released.", "imdb_rating": "6.9"}
         ]
       }
     },
     "South Indian": {
       "Movies": {
         "Action / Thriller": [
-          {"title": "K.G.F: Chapter 1", "year": "2018", "genre": "Action / Crime", "desc": "A fierce gangster goes undercover as a slave to assassinate the owner of a notorious gold mine.", "imdb_rating": "8.2"},
-          {"title": "RRR", "year": "2022", "genre": "Action / Drama", "desc": "A fictitious saga about two legendary revolutionaries and their epic journey away from home.", "imdb_rating": "7.8"},
-          {"title": "Vikram", "year": "2022", "genre": "Action / Thriller", "desc": "A elite black-ops special agent investigates a series of murders committed by masked vigilantes.", "imdb_rating": "8.3"}
+          {"title": "K.G.F: Chapter 1", "year": "2018", "genre": "Action / Crime", "desc": "A fierce gangster goes undercover as a slave to assassinate the owner of a gold mine.", "imdb_rating": "8.2"},
+          {"title": "RRR", "year": "2022", "genre": "Action / Drama", "desc": "A fictitious saga about two legendary revolutionaries and their epic journey.", "imdb_rating": "7.8"},
+          {"title": "Vikram", "year": "2022", "genre": "Action / Thriller", "desc": "An elite black-ops agent investigates a series of murders committed by vigilantes.", "imdb_rating": "8.3"},
+          {"title": "Pushpa: The Rise", "year": "2021", "genre": "Action / Crime", "desc": "A laborer rises through the ranks of a red sandalwood smuggling syndicate.", "imdb_rating": "7.6"},
+          {"title": "Baahubali 2", "year": "2017", "genre": "Action / Drama", "desc": "Amarendra Baahubali finds his life and royal relationships deeply endangered.", "imdb_rating": "8.2"},
+          {"title": "Kaithi", "year": "2019", "genre": "Action / Thriller", "desc": "An ex-convict races against time to hospitalize police officers while dodging a drug cartel.", "imdb_rating": "8.5"},
+          {"title": "Ratsasan", "year": "2018", "genre": "Crime / Mystery", "desc": "An aspiring filmmaker becomes a police officer to hunt down a sadistic school-girl serial killer.", "imdb_rating": "8.3"},
+          {"title": "Master", "year": "2021", "genre": "Action / Thriller", "desc": "An alcoholic professor is sent to a juvenile school where he clashes with a ruthless gangster.", "imdb_rating": "7.3"},
+          {"title": "Kantara", "year": "2022", "genre": "Action / Fantasy", "desc": "A fiery young man clashes with a forest officer over ancestral land and local folklore.", "imdb_rating": "8.2"},
+          {"title": "Maharaja", "year": "2024", "genre": "Crime / Thriller", "desc": "A barber seeks vengeance after his home is burglarized, cryptically telling police his 'lakshmi' is taken.", "imdb_rating": "8.5"}
         ]
       },
       "TV Shows": {
         "Action / Thriller": [
-          {"title": "Suzhal: The Vortex", "year": "2022", "genre": "Crime / Mystery", "desc": "A small-town investigation into a missing girl unearths dark cultural secrets and corporate corruption.", "imdb_rating": "8.0"},
-          {"title": "Vadha Rani", "year": "2023", "genre": "Action / Drama", "desc": "A gripping regional thriller centering on power struggles and family loyalty.", "imdb_rating": "7.8"}
+          {"title": "Suzhal: The Vortex", "year": "2022", "genre": "Crime / Mystery", "desc": "A small-town investigation into a missing girl unearths dark cultural secrets.", "imdb_rating": "8.0"},
+          {"title": "Vadha Rani", "year": "2023", "genre": "Action / Drama", "desc": "A gripping regional thriller centering on power struggles and loyalty.", "imdb_rating": "7.8"},
+          {"title": "Vilangu", "year": "2022", "genre": "Crime / Mystery", "desc": "A sub-inspector deals with complex personal struggles while investigating a gruesome crime.", "imdb_rating": "8.4"},
+          {"title": "Fall", "year": "2023", "genre": "Thriller", "desc": "A young woman suffers memory loss after an accident and tries to uncover what happened.", "imdb_rating": "6.8"},
+          {"title": "Mad Company", "year": "2021", "genre": "Comedy / Crime", "desc": "An eccentric group of people start a startup that solves personal problems.", "imdb_rating": "7.2"},
+          {"title": "November Story", "year": "2021", "genre": "Crime / Mystery", "desc": "An ethical hacker tries to save her Alzheimer's-stricken father accused of murder.", "imdb_rating": "7.5"},
+          {"title": "Ayali", "year": "2023", "genre": "Drama", "desc": "A young girl in a conservative village dreams of becoming a doctor against all odds.", "imdb_rating": "8.5"},
+          {"title": "Queen", "year": "2019", "genre": "Biography / Drama", "desc": "Fictionalized account of the life of a legendary South Indian actress and politician.", "imdb_rating": "8.0"},
+          {"title": "Velle Velli", "year": "2022", "genre": "Thriller", "desc": "A high-octane local political drama series.", "imdb_rating": "7.0"},
+          {"title": "Accidental Farmer", "year": "2023", "genre": "Comedy", "desc": "An accidental discovery on a farm turns a simple man's life upside down.", "imdb_rating": "7.1"}
         ]
       }
     },
     "Korean": {
       "Movies": {
         "Action / Thriller": [
-          {"title": "Parasite", "year": "2019", "genre": "Comedy / Drama", "desc": "Greed and class discrimination threaten the newly formed symbiotic relationship between two families.", "imdb_rating": "8.5"},
-          {"title": "Oldboy", "year": "2003", "genre": "Action / Mystery", "desc": "After being kidnapped and imprisoned for 15 years, a man seeks vengeance against his captor.", "imdb_rating": "8.4"},
-          {"title": "Train to Busan", "year": "2016", "genre": "Action / Horror", "desc": "Passengers struggle to survive on a high-speed train during a sudden nationwide zombie outbreak.", "imdb_rating": "7.6"}
+          {"title": "Parasite", "year": "2019", "genre": "Comedy / Drama", "desc": "Class discrimination threatens the relationship between the wealthy Park family and the destitute Kims.", "imdb_rating": "8.5"},
+          {"title": "Oldboy", "year": "2003", "genre": "Action / Mystery", "desc": "After being imprisoned for 15 years, a man seeks vengeance against his mysterious captor.", "imdb_rating": "8.4"},
+          {"title": "Train to Busan", "year": "2016", "genre": "Action / Horror", "desc": "Passengers struggle to survive on a high-speed train during a sudden zombie outbreak.", "imdb_rating": "7.6"},
+          {"title": "The Handmaiden", "year": "2016", "genre": "Crime / Drama", "desc": "A woman is hired as a handmaiden to an heiress, secretly plotting to defraud her.", "imdb_rating": "8.1"},
+          {"title": "The Wailing", "year": "2016", "genre": "Horror / Mystery", "desc": "A stranger arrives in a village and a mysterious sickness starts spreading rapidly.", "imdb_rating": "7.4"},
+          {"title": "Memories of Murder", "year": "2003", "genre": "Crime / Drama", "desc": "Two detectives struggle with the case of multiple young women murdered in a province.", "imdb_rating": "8.1"},
+          {"title": "I Saw the Devil", "year": "2010", "genre": "Action / Crime", "desc": "A secret agent exacts a brutal, calculated revenge on a sadistic serial killer.", "imdb_rating": "7.8"},
+          {"title": "The Man from Nowhere", "year": "2010", "genre": "Action / Thriller", "desc": "A quiet pawnshop keeper takes on a drug-and-organ trafficking ring to save a young girl.", "imdb_rating": "7.7"},
+          {"title": "The Chaser", "year": "2008", "genre": "Action / Crime", "desc": "An ex-policeman turned pimp hunts down a client who has been kidnapping his girls.", "imdb_rating": "7.9"},
+          {"title": "Decision to Leave", "year": "2022", "genre": "Crime / Mystery", "desc": "A detective investigating a man's death meets the dead man's mysterious, evasive wife.", "imdb_rating": "7.3"}
         ]
       },
       "TV Shows": {
         "Action / Thriller": [
-          {"title": "Squid Game", "year": "2021", "genre": "Action / Mystery", "desc": "Hundreds of cash-strapped contestants accept an invitation to compete in deadly children's games.", "imdb_rating": "8.0"},
-          {"title": "All of Us Are Dead", "year": "2022", "genre": "Action / Horror", "desc": "A high school becomes ground zero for a zombie virus outbreak, trapping students inside.", "imdb_rating": "7.5"},
-          {"title": "Kingdom", "year": "2019", "genre": "Action / History", "desc": "While investigating a mysterious plague in Joseon, a crown prince discovers a terrifying epidemic.", "imdb_rating": "8.4"}
+          {"title": "Squid Game", "year": "2021", "genre": "Action / Mystery", "desc": "Cash-strapped contestants accept an invitation to compete in deadly children's games.", "imdb_rating": "8.0"},
+          {"title": "All of Us Are Dead", "year": "2022", "genre": "Action / Horror", "desc": "A high school becomes ground zero for a zombie virus outbreak, trapping students.", "imdb_rating": "7.5"},
+          {"title": "Kingdom", "year": "2019", "genre": "Action / History", "desc": "While investigating a mysterious plague in Joseon, a crown prince discovers a terrifying epidemic.", "imdb_rating": "8.4"},
+          {"title": "Vincenzo", "year": "2021", "genre": "Action / Comedy", "desc": "An Italian-Korean mafia lawyer gives a conglomerate a taste of its own medicine.", "imdb_rating": "8.4"},
+          {"title": "My Name", "year": "2021", "genre": "Action / Crime", "desc": "A revenge-driven woman joins a drug cartel and infiltrates the police as an mole.", "imdb_rating": "7.8"},
+          {"title": "Extracurricular", "year": "2020", "genre": "Crime / Drama", "desc": "A model high schooler turns to a life of crime to pay for his college tuition.", "imdb_rating": "7.7"},
+          {"title": "Sweet Home", "year": "2020", "genre": "Action / Horror", "desc": "Troubled teenager Hyun moves into an apartment complex where monsters try to wipe out humanity.", "imdb_rating": "7.3"},
+          {"title": "D.P.", "year": "2021", "genre": "Action / Drama", "desc": "A young private in the Korean military is tasked with capturing military deserters.", "imdb_rating": "8.2"},
+          {"title": "Signal", "year": "2016", "genre": "Crime / Sci-Fi", "desc": "A walkie-talkie allows a detective in 1989 to communicate with a cold-case profiler in 2015.", "imdb_rating": "8.5"},
+          {"title": "Taxi Driver", "year": "2021", "genre": "Action / Crime", "desc": "A deluxe taxi service takes revenge on behalf of victims who cannot get justice from the law.", "imdb_rating": "8.0"}
         ]
       }
     }
@@ -387,11 +436,7 @@
   function getOfflinePicks(genre, region, format) {
     const regObj = MOVIE_DB[region] || MOVIE_DB["English"];
     const fmtObj = (regObj && regObj[format]) ? regObj[format] : (regObj ? regObj["Movies"] : {});
-    const list = (fmtObj && fmtObj[genre]) ? fmtObj[genre] : [
-      {"title": "Inception", "year": "2010", "genre": "Sci-Fi", "desc": "A thief steals corporate secrets through dreams.", "imdb_rating": "8.8"},
-      {"title": "Gladiator", "year": "2000", "genre": "Action", "desc": "A former Roman General seeks vengeance.", "imdb_rating": "8.5"},
-      {"title": "Titanic", "year": "1997", "genre": "Romance", "desc": "An artist falls for a rich girl on the ship.", "imdb_rating": "7.9"}
-    ];
+    const list = (fmtObj && fmtObj[genre]) ? fmtObj[genre] : (fmtObj && fmtObj["Action / Thriller"] ? fmtObj["Action / Thriller"] : []);
     
     let unwatched = list.filter(m => !watched.films.includes(`${m.title} (${m.year})`));
     if (unwatched.length < 3) unwatched = list;
