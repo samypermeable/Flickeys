@@ -35,7 +35,7 @@
   #app-root {
     min-height: 100vh;
     width: 100%;
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: env(safe-area-inset-top, 30px) 16px env(safe-area-inset-bottom, 32px);
   }
@@ -44,6 +44,7 @@
   .layout-grid {
     display: flex;
     flex-direction: column;
+    gap: 24px;
   }
 
   .sidebar { margin-bottom: 20px; }
@@ -128,12 +129,16 @@
 
   /* DESKTOP MEDIA QUERIES */
   @media (min-width: 900px) {
-    .layout-grid { flex-direction: row; gap: 40px; align-items: flex-start; }
-    .sidebar { width: 280px; flex-shrink: 0; position: sticky; top: 40px; }
-    .header { text-align: left; }
-    .genres-scroll { flex-wrap: wrap; overflow-x: visible; }
-    .stage { grid-template-columns: repeat(3, 1fr); }
-    .collection-grid { grid-template-columns: repeat(2, 1fr); }
+    .layout-grid { flex-direction: row; gap: 48px; align-items: flex-start; }
+    .sidebar { flex: 0 0 280px; position: sticky; top: 40px; border-right: 1px solid rgba(212, 175, 55, 0.08); padding-right: 32px; }
+    .header { text-align: left; margin-bottom: 40px; }
+    .title { font-size: 52px; }
+    .genres-scroll { flex-wrap: wrap; overflow-x: visible; gap: 8px; margin-bottom: 32px; padding-bottom: 0; }
+    .genre-chip { padding: 8px 16px; font-size: 12px; }
+    .main-content { min-width: 0; }
+    .stage { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+    .collection-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+    .collection-header { font-size: 32px; }
   }
 </style>
 </head>
@@ -398,12 +403,13 @@
 
   function setupToggle(groupId, stateVarName) {
     document.getElementById(groupId).addEventListener('click', (e) => {
-        if (e.target.classList.contains('toggle-btn')) {
+        const btn = e.target.closest('.toggle-btn');
+        if (btn) {
             document.querySelectorAll(`#${groupId} .toggle-btn`).forEach(b => b.classList.remove('active'));
-            e.target.classList.add('active');
+            btn.classList.add('active');
             
-            if (stateVarName === 'region') currentRegion = e.target.dataset.val;
-            if (stateVarName === 'format') currentFormat = e.target.dataset.val;
+            if (stateVarName === 'region') currentRegion = btn.dataset.val;
+            if (stateVarName === 'format') currentFormat = btn.dataset.val;
             
             sessionSeen.films = []; 
             if (currentGenre) pickAndRender(currentGenre);
@@ -425,11 +431,14 @@
       const chip = document.createElement('button');
       chip.className = 'genre-chip';
       chip.textContent = genre;
-      chip.addEventListener('click', () => {
-        document.querySelectorAll('.genre-chip').forEach(c => c.classList.remove('active'));
-        chip.classList.add('active');
-        sessionSeen.films = []; 
-        pickAndRender(genre);
+      chip.addEventListener('click', (e) => {
+        const targetChip = e.target.closest('.genre-chip');
+        if (targetChip) {
+            document.querySelectorAll('.genre-chip').forEach(c => c.classList.remove('active'));
+            targetChip.classList.add('active');
+            sessionSeen.films = []; 
+            pickAndRender(genre);
+        }
       });
       genresEl.appendChild(chip);
     });
