@@ -1190,23 +1190,22 @@ const MOVIE_DB = {
 
   function getOfflinePicks(genre, region, format) {
     let list = [];
-    
     if (MOVIE_DB[region] && MOVIE_DB[region][format] && MOVIE_DB[region][format][genre]) {
         list = [...MOVIE_DB[region][format][genre]];
     }
 
-    if (list.length < 10) {
-        // Safe fallback generator if by any chance category is empty
+    if (!list || list.length < 3) {
         const prefixes = ["The", "A", "Return of the", "Rise of the", "Shadows of", "Echoes of", "The Lost", "Secrets of"];
         const nouns = ["Heart", "Night", "Stranger", "City", "Dream", "River", "Truth", "Journey", "Soul", "Mystery"];
-        for (let i = list.length; i < 12; i++) {
+        list = [];
+        for (let i = 0; i < 5; i++) {
             const pre = prefixes[Math.floor(Math.random() * prefixes.length)];
             const noun = nouns[Math.floor(Math.random() * nouns.length)];
             list.push({
                 title: `${pre} ${noun}`,
                 year: String(2010 + Math.floor(Math.random() * 14)),
                 genre: genre,
-                desc: `A critically acclaimed ${format.toLowerCase().slice(0,-1)} representing the absolute best of ${region} ${genre}.`,
+                desc: `A highly acclaimed ${format.toLowerCase().slice(0,-1)} representing the absolute best of ${region} ${genre}.`,
                 imdb_rating: (7.0 + Math.random() * 2.5).toFixed(1)
             });
         }
@@ -1226,14 +1225,12 @@ const MOVIE_DB = {
     return shuffled.slice(0, 3).map(p => ({...p, source: 'offline'}));
   }
 
-  // Reliable AI Fetch via direct Pollinations GET endpoint
   async function fetchPicks(genre, region, format) {
     const avoidList = [...new Set([...watched.films, ...sessionSeen.films])].slice(-40);
     
     const promptText = `Suggest exactly 3 highly rated, famous ${region} ${format} strictly matching the genre '${genre}'. Exclude these completely: ${avoidList.join(', ')}. Respond ONLY with valid raw JSON in this exact format: {"films":[{"title":"...","year":"YYYY","genre":"...","desc":"One short sentence description.","imdb_rating":"X.X"}]}`;
 
-    // Use direct URL to bypass any proxy issues
-    const url = `https://text.pollinations.ai/${encodeURIComponent(promptText)}?jsonMode=true&seed=${Math.floor(Math.random() * 9999999)}`;
+    const url = `https://text.pollinations.ai/${encodeURIComponent(promptText)}?model=openai&json=true&seed=${Math.floor(Math.random() * 9999999)}`;
 
     const response = await fetch(url);
     if (!response.ok) throw new Error(`HTTP Error ${response.status}`);
@@ -1262,8 +1259,6 @@ const MOVIE_DB = {
     actionsEl.style.display = 'none';
 
     let picks;
-    
-    // Strict safety wrapper ensures the app NEVER crashes
     try {
         picks = await fetchPicks(genre, currentRegion, currentFormat);
         if (!picks || picks.length === 0) throw new Error("AI returned empty data.");
